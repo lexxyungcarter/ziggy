@@ -1,6 +1,6 @@
 <?php
 
-namespace Tightenco\Ziggy;
+namespace Lexx\Ziggy;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;

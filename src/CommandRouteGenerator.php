@@ -1,12 +1,12 @@
 <?php
 
-namespace Tightenco\Ziggy;
+namespace Lexx\Ziggy;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Routing\Router;
-use Tightenco\Ziggy\BladeRouteGenerator;
-use Tightenco\Ziggy\RoutePayload;
+use Lexx\Ziggy\BladeRouteGenerator;
+use Lexx\Ziggy\RoutePayload;
 
 class CommandRouteGenerator extends Command
 {

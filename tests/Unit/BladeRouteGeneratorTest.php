@@ -1,14 +1,14 @@
 <?php
 
-namespace Tightenco\Tests\Unit;
+namespace Lexx\Tests\Unit;
 
 use Illuminate\Container\Container;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Facades\Route;
-use Tightenco\Tests\TestCase;
-use Tightenco\Ziggy\BladeRouteGenerator;
+use Lexx\Tests\TestCase;
+use Lexx\Ziggy\BladeRouteGenerator;
 
 class BladeRouteGeneratorTest extends TestCase
 {

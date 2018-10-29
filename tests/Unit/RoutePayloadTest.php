@@ -1,15 +1,15 @@
 <?php
 
-namespace Tightenco\Tests\Unit;
+namespace Lexx\Tests\Unit;
 
 use Illuminate\Container\Container;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Facades\Route;
-use Tightenco\Tests\TestCase;
-use Tightenco\Ziggy\BladeRouteGenerator;
-use Tightenco\Ziggy\RoutePayload;
+use Lexx\Tests\TestCase;
+use Lexx\Ziggy\BladeRouteGenerator;
+use Lexx\Ziggy\RoutePayload;
 
 class RoutePayloadTest extends TestCase
 {

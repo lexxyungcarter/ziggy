@@ -1,11 +1,11 @@
 <?php
 
-namespace Tightenco\Tests;
+namespace Lexx\Tests;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
-use Tightenco\Ziggy\ZiggyServiceProvider;
+use Lexx\Ziggy\ZiggyServiceProvider;
 
 class TestCase extends OrchestraTestCase
 {

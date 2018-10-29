@@ -1,10 +1,10 @@
 <?php
 
-namespace Tightenco\Tests\Unit;
+namespace Lexx\Tests\Unit;
 
-use Tightenco\Tests\TestCase;
-use Tightenco\Ziggy\RoutePayload;
-use Tightenco\Ziggy\ZiggyServiceProvider;
+use Lexx\Tests\TestCase;
+use Lexx\Ziggy\RoutePayload;
+use Lexx\Ziggy\ZiggyServiceProvider;
 
 class MacroTest extends TestCase
 {
