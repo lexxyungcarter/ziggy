@@ -292,7 +292,7 @@ export const routes;
 
 
 
-// ssers/Index.vue    component
+// users/Index.vue    component
 export default {
 
     methods: {
