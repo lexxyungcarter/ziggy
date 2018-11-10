@@ -5,8 +5,6 @@ namespace Lexx\Ziggy;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Routing\Router;
-use Lexx\Ziggy\BladeRouteGenerator;
-use Lexx\Ziggy\RoutePayload;
 
 class CommandRouteGenerator extends Command
 {

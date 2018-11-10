@@ -262,10 +262,11 @@ Then, use the method in your Vue components like so:
 Thanks to [Archer70](https://github.com/tightenco/ziggy/issues/70#issuecomment-369129032) for this solution.
 
 ### Using with Vue-Router
-Since vue router accepts only relative urls, a **relative()** method exists that returns a relative url from the normal absolute url
+Since vue router accepts only relative urls, a `relative()` method exists that returns a relative url from the normal absolute url
 got from route() method. So you can simply chain it.
-*NB* As a precaution, colons get encoded to **%3A** when urls are generated with route(), so it would be a good idea to pass *true*
-to the relative method. Behind the scenes, the decodeURIComponen gets called and ensured that the collon is returned.
+
+> *NB* As a precaution, colons get encoded to `%3A` when urls are generated with route(), so it would be a good idea to pass `true`
+to the relative method. Behind the scenes, the decodeURIComponent gets called and ensures that the collon is returned.
 ```js
 // routes.js
 
