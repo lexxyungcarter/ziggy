@@ -115,26 +115,26 @@ describe('route()', function() {
         );
     });
 
-    it('Should return Relative URL prefixed with a slash when when passed the relativeUrl() method', function () {
+    it('Should return Relative URL prefixed with a slash when when passed the relative() method', function () {
         assert.equal(
             "/posts",
-            route('posts.index').relativeUrl()
+            route('posts.index').relative()
         );
     });
 
 
-    it('Should return Relative URL prefixed with a slash when when passed the relativeUrl() method with default params', function () {
+    it('Should return Relative URL prefixed with a slash when when passed the relative() method with default params', function () {
         assert.equal(
             "/en/posts",
-            route('translatePosts.index').relativeUrl()
+            route('translatePosts.index').relative()
         );
     });
 
 
-    it('Should return Relative URL prefixed with a slash when when passed the relativeUrl() method when passing false into absolute param', function () {
+    it('Should return Relative URL prefixed with a slash when when passed the relative() method when passing false into absolute param', function () {
         assert.equal(
             "/posts",
-            route('posts.index', [], false).relativeUrl()
+            route('posts.index', [], false).relative()
         );
     });
 
