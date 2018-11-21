@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tightenco/ziggy.git"
+    "url": "git+https://github.com/lexxyungcarter/ziggy.git"
   },
-  "author": "Daniel Coulbourne",
+  "author": "Lexx YungCarter",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/tightenco/ziggy/issues"
+    "url": "https://github.com/lexxyungcarter/ziggy/issues"
   },
-  "homepage": "https://github.com/tightenco/ziggy#readme",
+  "homepage": "https://github.com/lexxyungcarter/ziggy#readme",
   "scripts": {
     "build": "NODE_ENV=production webpack --progress",
     "build:watch": "npm run build -- --watch",
