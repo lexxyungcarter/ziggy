@@ -2,41 +2,47 @@
 
 namespace Lexx\Tests\Unit;
 
-use Illuminate\Container\Container;
-use Illuminate\Events\Dispatcher;
-use Illuminate\Routing\Router;
-use Illuminate\Support\Facades\Facade;
-use Illuminate\Support\Facades\Route;
 use Lexx\Tests\TestCase;
-use Lexx\Ziggy\BladeRouteGenerator;
 use Lexx\Ziggy\RoutePayload;
 
 class RoutePayloadTest extends TestCase
 {
     protected $router;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         $this->router = app('router');
-        $this->router->get('/home', function () { return ''; })
-               ->name('home');
+        $this->router->get('/home', function () {
+            return '';
+        })
+            ->name('home');
 
-        $this->router->get('/posts', function () { return ''; })
-               ->name('posts.index');
+        $this->router->get('/posts', function () {
+            return '';
+        })
+            ->name('posts.index');
 
-        $this->router->get('/posts/{post}', function () { return ''; })
-               ->name('posts.show');
+        $this->router->get('/posts/{post}', function () {
+            return '';
+        })
+            ->name('posts.show');
 
-        $this->router->get('/posts/{post}/comments', function () { return ''; })
-               ->name('postComments.index');
+        $this->router->get('/posts/{post}/comments', function () {
+            return '';
+        })
+            ->name('postComments.index');
 
-        $this->router->post('/posts', function () { return ''; })
-               ->name('posts.store');
+        $this->router->post('/posts', function () {
+            return '';
+        })
+            ->name('posts.store')->middleware(['auth', 'role:admin']);
 
-       $this->router->get('/admin/users', function () { return ''; })
-              ->name('admin.users.index');
+        $this->router->get('/admin/users', function () {
+            return '';
+        })
+            ->name('admin.users.index')->middleware('role:admin');
 
         $this->router->getRoutes()->refreshNameLookups();
     }
@@ -96,7 +102,7 @@ class RoutePayloadTest extends TestCase
     public function existence_of_whitelist_config_causes_routes_to_whitelist()
     {
         app()['config']->set('ziggy', [
-            'whitelist' => ['posts.s*', 'home']
+            'whitelist' => ['posts.s*', 'home'],
         ]);
 
         $routes = RoutePayload::compile($this->router);
@@ -126,7 +132,7 @@ class RoutePayloadTest extends TestCase
     public function existence_of_blacklist_config_causes_routes_to_blacklist()
     {
         app()['config']->set('ziggy', [
-            'blacklist' => ['posts.s*', 'home', 'admin.*']
+            'blacklist' => ['posts.s*', 'home', 'admin.*'],
         ]);
 
         $routes = RoutePayload::compile($this->router);
@@ -198,8 +204,8 @@ class RoutePayloadTest extends TestCase
     {
         app()['config']->set('ziggy', [
             'groups' => [
-                'authors' => ['home', 'posts.*']
-            ]
+                'authors' => ['home', 'posts.*'],
+            ],
         ]);
 
         $routes = RoutePayload::compile($this->router, 'authors');
@@ -265,6 +271,108 @@ class RoutePayloadTest extends TestCase
                 'uri' => 'admin/users',
                 'methods' => ['GET', 'HEAD'],
                 'domain' => null,
+            ],
+        ];
+
+        $this->assertEquals($expected, $routes->toArray());
+    }
+
+    /** @test */
+    public function retrieves_middleware_if_config_is_set()
+    {
+        app()['config']->set('ziggy', [
+            'middleware' => true,
+        ]);
+
+        $routes = RoutePayload::compile($this->router);
+
+        $expected = [
+            'posts.index' => [
+                'uri' => 'posts',
+                'methods' => ['GET', 'HEAD'],
+                'domain' => null,
+                'middleware' => [],
+            ],
+            'postComments.index' => [
+                'uri' => 'posts/{post}/comments',
+                'methods' => ['GET', 'HEAD'],
+                'domain' => null,
+                'middleware' => [],
+            ],
+            'home' => [
+                'uri' => 'home',
+                'methods' => ['GET', 'HEAD'],
+                'domain' => null,
+                'middleware' => [],
+            ],
+            'posts.show' => [
+                'uri' => 'posts/{post}',
+                'methods' => ['GET', 'HEAD'],
+                'domain' => null,
+                'middleware' => [],
+            ],
+            'posts.store' => [
+                'uri' => 'posts',
+                'methods' => ['POST'],
+                'domain' => null,
+                'middleware' => ['auth', 'role:admin'],
+            ],
+            'admin.users.index' => [
+                'uri' => 'admin/users',
+                'methods' => ['GET', 'HEAD'],
+                'domain' => null,
+                'middleware' => ['role:admin'],
+            ],
+        ];
+
+        $this->assertEquals($expected, $routes->toArray());
+    }
+
+    /** @test */
+    public function retrieves_only_configured_middleware()
+    {
+        app()['config']->set('ziggy', [
+            'middleware' => ['auth'],
+        ]);
+
+        $routes = RoutePayload::compile($this->router);
+
+        $expected = [
+            'posts.index' => [
+                'uri' => 'posts',
+                'methods' => ['GET', 'HEAD'],
+                'domain' => null,
+                'middleware' => [],
+            ],
+            'postComments.index' => [
+                'uri' => 'posts/{post}/comments',
+                'methods' => ['GET', 'HEAD'],
+                'domain' => null,
+                'middleware' => [],
+            ],
+            'home' => [
+                'uri' => 'home',
+                'methods' => ['GET', 'HEAD'],
+                'domain' => null,
+                'middleware' => [],
+            ],
+            'posts.show' => [
+                'uri' => 'posts/{post}',
+                'methods' => ['GET', 'HEAD'],
+                'domain' => null,
+                'middleware' => [],
+            ],
+            'posts.store' => [
+                'uri' => 'posts',
+                'methods' => ['POST'],
+                'domain' => null,
+                'middleware' => ['auth'],
+            ],
+            'admin.users.index' => [
+                'uri' => 'admin/users',
+                'methods' => ['GET', 'HEAD'],
+                'domain' => null,
+                'middleware' => [],
             ],
         ];
 

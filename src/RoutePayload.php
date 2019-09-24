@@ -3,6 +3,8 @@
 namespace Lexx\Ziggy;
 
 use Illuminate\Routing\Router;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class RoutePayload
 {
@@ -21,7 +23,7 @@ class RoutePayload
 
     public function applyFilters($group)
     {
-        if ($group && config()->has("ziggy.groups.{$group}")) {
+        if ($group) {
             return $this->group($group);
         }
 
@@ -43,7 +45,19 @@ class RoutePayload
 
     public function group($group)
     {
-        return $this->filter(config("ziggy.groups.{$group}"), true);
+        if(is_array($group)) {
+            $filters = [];
+            foreach($group as $groupName) {
+              $filters = array_merge($filters, config("ziggy.groups.{$groupName}"));
+            }
+
+            return is_array($filters)? $this->filter($filters, true) : $this->routes;
+        }
+        else if(config()->has("ziggy.groups.{$group}")) {
+            return $this->filter(config("ziggy.groups.{$group}"), true);
+        }
+
+        return $this->routes;
     }
 
     public function blacklist()
@@ -60,7 +74,7 @@ class RoutePayload
     {
         return $this->routes->filter(function ($route, $name) use ($filters, $include) {
             foreach ($filters as $filter) {
-                if (str_is($filter, $name)) {
+                if (Str::is($filter, $name)) {
                     return $include;
                 }
             }
@@ -80,7 +94,14 @@ class RoutePayload
                 }
 
                 return collect($route)->only(['uri', 'methods'])
-                    ->put('domain', $route->domain());
+                    ->put('domain', $route->domain())
+                    ->when($middleware = config('ziggy.middleware'), function ($collection) use ($middleware, $route) {
+                        if (is_array($middleware)) {
+                            return $collection->put('middleware', collect($route->middleware())->intersect($middleware)->values());
+                        }
+
+                        return $collection->put('middleware', $route->middleware());
+                    });
             });
     }
 
@@ -92,6 +113,6 @@ class RoutePayload
     protected function isListedAs($route, $list)
     {
         return (isset($route->listedAs) && $route->listedAs === $list)
-            || array_get($route->getAction(), 'listed_as', null) === $list;
+            || Arr::get($route->getAction(), 'listed_as', null) === $list;
     }
 }
